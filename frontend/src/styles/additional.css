@@ -1,0 +1,188 @@
+/* Additional styles for new components */
+
+/* Inventory Search styles */
+.inventory-search {
+  margin-bottom: 20px;
+}
+
+.search-container {
+  display: flex;
+  gap: 10px;
+}
+
+/* Charts styling */
+.inventory-charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+/* Media query for mobile */
+@media (max-width: 768px) {
+  .inventory-charts {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chart-container {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  height: 350px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-container:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--graph-blue));
+}
+
+.chart-container h3 {
+  margin-bottom: 20px;
+  color: var(--text-light);
+  font-size: 18px;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.pie-chart, .bar-chart {
+  height: 270px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Chart backgrounds */
+.chart-container:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: var(--card-background);
+  z-index: 0;
+}
+
+/* Dashboard charts section */
+.dashboard-charts-section {
+  margin-top: 30px;
+  padding: 10px;
+}
+
+.section-heading {
+  color: var(--text-dark);
+  font-size: 18px;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Theme toggle */
+.theme-toggle-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--card-background);
+  border: 2px solid var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.theme-toggle-btn:hover {
+  transform: rotate(30deg);
+}
+
+/* Table styles */
+.requests-table-container {
+  overflow-x: auto;
+  margin: 20px 0;
+}
+
+.requests-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.requests-table th, 
+.requests-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.requests-table th {
+  background-color: rgba(30, 34, 41, 0.9);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.requests-table th:hover {
+  background-color: rgba(42, 47, 56, 1);
+}
+
+.requests-table th.sorted {
+  color: var(--primary-color);
+}
+
+.requests-table tbody tr:hover {
+  background-color: rgba(42, 47, 56, 0.8);
+}
+
+.requests-table .table-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-button.small {
+  font-size: 12px;
+  padding: 5px 10px;
+}
+
+/* Bulk actions styling */
+.bulk-actions-container {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.bulk-table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.bulk-controls {
+  display: flex;
+  gap: 10px;
+}
+
+/* Light theme variables */
+body[data-theme='light'] {
+  --background-dark: #f5f5f5;
+  --card-background: #ffffff;
+  --text-light: #333333;
+  --text-muted: #666666;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Keep accent colors the same */
+}

@@ -1,0 +1,110 @@
+/* Chart Styles for Dashboard */
+.inventory-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.chart-container {
+  background-color: #1e2530;
+  border-radius: 12px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  min-height: 360px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}
+
+.chart-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.chart-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #2c3440;
+  margin-right: 12px;
+}
+
+.chart-icon svg {
+  width: 20px;
+  height: 20px;
+  color: #00e6c3; /* Teal color for icons */
+}
+
+.chart-container h3 {
+  font-size: 18px;
+  color: #ffffff;
+  font-weight: 600;
+  margin: 0;
+}
+
+.pie-chart, .bar-chart {
+  flex-grow: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 280px;
+}
+
+/* Canvas element styling */
+.pie-chart canvas, .bar-chart canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 280px;
+}
+
+/* Legend styling enhancement */
+.chart-container canvas + div {
+  margin-top: 10px;
+}
+
+/* Fix canvas rendering */
+.chart-container canvas {
+  display: block !important;
+}
+
+/* Proper chart scaling */
+.chart-container > div {
+  position: relative;
+  height: 100% !important;
+  width: 100% !important;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .inventory-charts {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Ensure charts are responsive to window resizing */
+@media (max-width: 1200px) {
+  .chart-container {
+    padding: 15px;
+  }
+}
+
+/* Handle zooming */
+@media screen and (max-width: 100%) {
+  .inventory-charts {
+    width: 100%;
+    min-width: 300px;
+  }
+  
+  .chart-container {
+    min-width: 300px;
+  }
+}

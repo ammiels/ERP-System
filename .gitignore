@@ -1,0 +1,29 @@
+#ignore .env file
+.env
+
+#ignore config.js
+config.js
+
+#ignore virtual environment
+my_venv/
+env/
+v_env/
+v_venv/
+
+#ignoring python bytecode cache folders
+__pycache__/
+*.pyc
+
+#ignoring docker artifacts
+*.log
+*.pid
+*.db
+
+#ignoring editor/IDE files
+.vscode/
+*.swp
+
+#ignoring system files
+.DS_Store
+
+/node_modules
