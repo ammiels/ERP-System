@@ -137,8 +137,48 @@ GRANT ALL PRIVILEGES ON DATABASE erp_system TO erp_user;
    export const INVENTORY_API_URL = process.env.REACT_APP_INVENTORY_API_URL;
    export const REQUESTS_API_URL = process.env.REACT_APP_REQUESTS_API_URL;
    ```
+## Running the Application With Docker
+Ensure necessary files are added as seen below:
+1)backend/.env:
+   DATABASE_URL=postgresql://POSTGRES_USER:POSTGRES_PASSWORD@POSTGRES_HOST/POSTGRES_DB
+   POSTGRES_USER=your-postgres-username
+   POSTGRES_PASSWORD=your-postgres-password
+   POSTGRES_DB=your-database-name
+   POSTGRES_PORT=5432
+   POSTGRES_HOST=postgres_db
 
-## Running the Application
+   #Security Settings
+   #Generate a random key using: python -c "import os; print(os.urandom(32).hex())"
+   SECRET_KEY="your-secret-key"
+   ALGORITHM="HS256"
+
+   #Docker CORS Settings
+   ALLOWED_ORIGINS=http://localhost:3000,http://frontend:3000,http://localhost:8000,http://auth:8000,http://dashboard:8001,http://inventoryservice:8002,http://requestsservice:8003
+   AUTH_TOKEN_URL=http://authentication:8000/auth/token
+
+2)frontend/.env:
+   REACT_APP_AUTH_API_URL=http://localhost:8000
+   REACT_APP_DASHBOARD_API_URL=http://localhost:8001
+   REACT_APP_INVENTORY_API_URL=http://localhost:8002
+   REACT_APP_REQUESTS_API_URL=http://localhost:8003
+   
+3)frontend/src/config.js:
+   export const AUTH_API_URL = process.env.REACT_APP_AUTH_API_URL;
+   export const DASHBOARD_API_URL = process.env.REACT_APP_DASHBOARD_API_URL;
+   export const INVENTORY_API_URL = process.env.REACT_APP_INVENTORY_API_URL;
+   export const REQUESTS_API_URL = process.env.REACT_APP_REQUESTS_API_URL;
+
+4)run npm install from frontend directory terminal
+5)the from root directory terminal run docker-compose up --build
+frontend of app will then be found on: http://localhost:3000
+
+stop running with:
+docker-compose down
+
+start running if its already built with:
+docker-compose up
+
+## Running the Application Without Docker
 
 ### 1. Start Backend Microservices
 Open four separate terminal windows in the backend directory with the virtual environment activated:
