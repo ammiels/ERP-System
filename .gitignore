@@ -9,6 +9,7 @@ my_venv/
 env/
 v_env/
 v_venv/
+venv/
 
 #ignoring python bytecode cache folders
 __pycache__/
@@ -27,3 +28,6 @@ __pycache__/
 .DS_Store
 
 /node_modules
+node_modules/
+build/
+.env

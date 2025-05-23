@@ -1,0 +1,79 @@
+services:
+  postgres_db:
+    image: postgres:15-alpine
+    env_file:
+      - ./backend/.env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  authentication:
+    build:
+      context: ./backend
+      dockerfile: Authentication/Dockerfile
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres_db
+    restart: unless-stopped
+
+  dashboard:
+    build:
+      context: ./backend
+      dockerfile: Dashboard/Dockerfile
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8001:8001"
+    depends_on:
+      - postgres_db
+      - authentication
+    restart: unless-stopped
+
+  inventory:
+    build:
+      context: ./backend
+      dockerfile: Inventory/Dockerfile
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8002:8002"
+    depends_on:
+      - postgres_db
+      - authentication
+    restart: unless-stopped
+
+  requests:
+    build:
+      context: ./backend
+      dockerfile: Requests/Dockerfile
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8003:8003"
+    depends_on:
+      - postgres_db
+      - authentication
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    env_file:
+      - ./frontend/.env
+    ports:
+      - "3000:80"
+    depends_on:
+      - authentication
+      - dashboard
+      - inventory
+      - requests
+    restart: unless-stopped
+
+volumes:
+  pgdata:

@@ -1,6 +1,6 @@
 // Simple utility to test API connectivity
 import axios from 'axios';
-import { REQUESTS_API_URL } from '../config';
+import { REQUESTS_API_URL } from '../config.js';
 
 // Function to test API connectivity
 export async function testRequestsApi(token) {
