@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 
 class InventoryCreate(BaseModel):
     name: str
@@ -20,3 +20,7 @@ class InventoryUpdate(BaseModel):
 
     class Config:
         orm_mode = True
+
+# New schema for bulk operations
+class BulkItemImport(BaseModel):
+    items: List[InventoryCreate]

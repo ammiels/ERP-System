@@ -19,12 +19,16 @@ function Login() {
             
             const form = new URLSearchParams();
             form.append("username", username);
-            form.append("password", password);
-
-            const res = await axios.post(`${AUTH_API_URL}/auth/token`, form);
+            form.append("password", password);            const res = await axios.post(`${AUTH_API_URL}/auth/token`, form);
             const token = res.data.access_token;
 
+            // Add logging for debugging
+            console.log('Received token from auth service');
+            
+            // Store token in localStorage
             localStorage.setItem("token", token);
+            localStorage.setItem("tokenTimestamp", Date.now().toString());
+            
             navigate("/Dashboard");
         } catch (err) {
             console.error(err); 

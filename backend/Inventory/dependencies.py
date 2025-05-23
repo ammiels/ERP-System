@@ -26,13 +26,17 @@ db_dependency = Annotated[Session, Depends(get_db)]
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        if not payload.get("sub") or not payload.get("username") or not payload.get("role"):
+            raise HTTPException(status_code=401, detail="Token is missing required fields")
+            
         return {
             "id": int(payload.get("sub")),
             "username": payload.get("username"),
             "role": payload.get("role")
         }
-    except JWTError:
-        raise HTTPException(status_code=401, detail="Invalid token")
+    except JWTError as e:
+        print(f"JWT Error: {e}")
+        raise HTTPException(status_code=401, detail=f"Invalid token: {str(e)}")
     
 async def get_admin_user(user=Depends(get_current_user)):
     if user["role"] != "admin":

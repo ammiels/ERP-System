@@ -28,6 +28,16 @@ ChartJS.register(
   Title
 );
 
+// Enhanced chart options for better responsiveness
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  resizeDelay: 100, // Delay resize operations to improve performance
+  onResize: function(chart, size) {
+    // Custom resize handler if needed
+  }
+};
+
 // Set default options for all charts
 ChartJS.defaults.font.family = "'Segoe UI', 'Roboto', 'Oxygen', sans-serif";
 ChartJS.defaults.color = '#d1d1d1'; // Lighter gray instead of bright white

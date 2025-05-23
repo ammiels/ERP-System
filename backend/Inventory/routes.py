@@ -1,8 +1,13 @@
-from fastapi import HTTPException, APIRouter, status, Depends
+from fastapi import HTTPException, APIRouter, status, Depends, Response
 from Inventory.dependencies import db_dependency, get_admin_user
 from Inventory.models import Inventory
-from Inventory.schemas import InventoryCreate, InventoryOut, InventoryUpdate
+from Inventory.schemas import InventoryCreate, InventoryOut, InventoryUpdate, BulkItemImport
 from Requests.models import Request, RequestStatus
+import csv
+import io
+import json
+from typing import List
+from fastapi.responses import StreamingResponse
 
 router = APIRouter(prefix="/inventory", tags=["Inventory"])
 
@@ -56,3 +61,74 @@ def delete_item(item_id: int, db: db_dependency, user=Depends(get_admin_user)):
     item.isDeleted = True
     db.commit()
     return {"message": "Item set to deleted"}
+    
+# New bulk import endpoint
+@router.post("/bulk-import", response_model=dict)
+def bulk_import(import_data: BulkItemImport, db: db_dependency, user=Depends(get_admin_user)):
+    """
+    Import multiple inventory items at once
+    """
+    successful_imports = 0
+    failed_imports = 0
+    failures = []
+    
+    for item_data in import_data.items:
+        try:
+            # Check if item already exists
+            existing_item = db.query(Inventory).filter(Inventory.name == item_data.name).first()
+            if existing_item:
+                failures.append({"name": item_data.name, "reason": "Item already exists"})
+                failed_imports += 1
+                continue
+                
+            # Create new item
+            new_item = Inventory(**item_data.model_dump(), isDeleted=False)
+            db.add(new_item)
+            successful_imports += 1
+        except Exception as e:
+            failures.append({"name": item_data.name if hasattr(item_data, "name") else "Unknown", 
+                             "reason": str(e)})
+            failed_imports += 1
+    
+    db.commit()
+    
+    return {
+        "message": f"Import complete. {successful_imports} items imported successfully, {failed_imports} failed.",
+        "successful_imports": successful_imports,
+        "failed_imports": failed_imports,
+        "failures": failures
+    }
+
+# Export to CSV endpoint
+@router.get("/export/csv")
+def export_csv(db: db_dependency):
+    """
+    Export all inventory items as CSV
+    """
+    items = db.query(Inventory).filter(Inventory.isDeleted == False).all()
+    
+    # Create a string buffer for CSV data
+    output = io.StringIO()
+    writer = csv.writer(output)
+    
+    # Write CSV header
+    writer.writerow(["id", "name", "quantity", "description"])
+    
+    # Write data rows
+    for item in items:
+        writer.writerow([item.id, item.name, item.quantity, item.description or ""])
+    
+    # Return CSV as downloadable file
+    response = StreamingResponse(iter([output.getvalue()]), 
+                                media_type="text/csv")
+    response.headers["Content-Disposition"] = f"attachment; filename=inventory-export.csv"
+    
+    return response
+
+# Export to JSON endpoint
+@router.get("/export/json", response_model=List[InventoryOut])
+def export_json(db: db_dependency):
+    """
+    Export all inventory items as JSON
+    """
+    return db.query(Inventory).filter(Inventory.isDeleted == False).all()

@@ -7,6 +7,13 @@
   width: 100%;
 }
 
+/* Media query for responsive charts on smaller screens */
+@media (max-width: 768px) {
+  .inventory-charts {
+    grid-template-columns: 1fr;
+  }
+}
+
 .chart-container {
   background-color: #1e2530;
   border-radius: 12px;
@@ -17,6 +24,15 @@
   display: flex;
   flex-direction: column;
   overflow: visible;
+  position: relative;
+}
+
+/* Ensure charts resize correctly */
+.pie-chart, .bar-chart, .line-chart {
+  position: relative;
+  height: 300px;
+  width: 100%;
+  flex-grow: 1;
 }
 
 .chart-header {
@@ -60,10 +76,9 @@
 }
 
 /* Canvas element styling */
-.pie-chart canvas, .bar-chart canvas {
-  width: 100% !important;
+.pie-chart canvas, .bar-chart canvas, .line-chart canvas {
+  max-width: 100%;
   height: 100% !important;
-  max-height: 280px;
 }
 
 /* Legend styling enhancement */

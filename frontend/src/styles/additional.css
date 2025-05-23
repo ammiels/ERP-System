@@ -177,6 +177,58 @@
   gap: 10px;
 }
 
+/* Data Import/Export Styles */
+.data-import-export {
+  padding: 10px;
+}
+
+.import-export-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .import-export-controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+.export-section, .import-section {
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.import-instructions {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: rgba(75, 156, 211, 0.1);
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.import-instructions p {
+  margin: 5px 0;
+  color: var(--text-light);
+}
+
+.success-message {
+  padding: 10px 15px;
+  background-color: rgba(75, 192, 192, 0.2);
+  border-left: 4px solid rgba(75, 192, 192, 0.8);
+  color: #e0e0e0;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
 /* Light theme variables */
 body[data-theme='light'] {
   --background-dark: #f5f5f5;
